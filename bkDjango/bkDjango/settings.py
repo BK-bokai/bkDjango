@@ -122,7 +122,10 @@ USE_I18N = True
 
 USE_L10N = True
 
+# USE_TZ = False
 USE_TZ = True
+# When USE_TZ is True and the database doesn’t support time zones (e.g. SQLite, MySQL, Oracle), 
+# Django reads and writes datetimes in local time according to this option if it is set and in UTC if it isn’t.
 
 
 # Static files (CSS, JavaScript, Images)
