@@ -31,6 +31,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'momapp',
+    'restaurants',
     'polls',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -56,6 +58,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [],
+        # 'DIRS': [os.path.join(BASE_DIR, 'templates')], # <- 加入這個設置
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
