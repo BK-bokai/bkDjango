@@ -1,11 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.template import loader
 from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
 from django.db.models import F
-
+from .models import Restaurant,Food,Author,Book
 
 # Create your views here.
 class restaurant:
@@ -37,5 +37,10 @@ class restaurant:
         }
         return render(request, 'momapp/menu.html', context)
     def show_restaurant(request,restaurant):
-        return HttpResponse('嗨媽我在這'+restaurant)
+        r=get_object_or_404(Restaurant,name=restaurant)
+        # return HttpResponse(r)
+        context={
+            'restaurant' : r
+        }
+        return render(request, 'restaurants/index.html', context)
 

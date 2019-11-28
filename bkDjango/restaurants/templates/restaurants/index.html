@@ -1,0 +1,18 @@
+<h2>{{restaurant.name}}</h2>
+{% if restaurant.food_set.all %}
+<div>本餐廳共有{{ restaurant.food_set.all|length }}道菜</div>
+{% for food in restaurant.food_set.all %}
+<ul>
+    <li>菜名{{food.name}}</li>
+    <li>價格{{food.price}}</li>
+    <li>評價{{food.comment}}</li>
+    <li>辣度
+        {% if food.is_spicy %}
+        辣
+        {% else %}
+        不辣
+        {% endif %}
+    </li>
+</ul>
+{% endfor %}
+{% endif %}
