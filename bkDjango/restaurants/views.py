@@ -8,7 +8,7 @@ from django.db.models import F
 
 
 # Create your views here.
-class hiMom:
+class restaurant:
     def index(self):
         return HttpResponse('嗨媽我在這')
 
@@ -36,3 +36,6 @@ class hiMom:
             'foods': [food1,food2]
         }
         return render(request, 'momapp/menu.html', context)
+    def show_restaurant(request,restaurant):
+        return HttpResponse('嗨媽我在這'+restaurant)
+

@@ -18,8 +18,12 @@ from django.urls import path, include, re_path
 from . import views
 
 urlpatterns = [
-    path('', views.hiMom.index, name='hiMom'),
-    path('<int:a>/plus/<int:b>',views.hiMom.add, name = 'add'),
-    path('menu/',views.hiMom.menu,name='menu')
+    path('', views.restaurant.index, name='hiMom'),
+    path('<int:a>/plus/<int:b>',views.restaurant.add, name = 'add'),
+    path('menu/',views.restaurant.menu,name='menu'),
+    re_path(r'restaurant/(\w{1,10})',views.restaurant.show_restaurant, name='show_restaurant'),
+
+
+     
     
 ]
