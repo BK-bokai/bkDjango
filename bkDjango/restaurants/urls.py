@@ -17,13 +17,14 @@ from django.contrib import admin
 from django.urls import path, include, re_path
 from . import views
 
+app_name = 'restaurant'
 urlpatterns = [
     path('', views.restaurant.index, name='hiMom'),
     path('<int:a>/plus/<int:b>',views.restaurant.add, name = 'add'),
     path('menu/',views.restaurant.menu,name='menu'),
-    re_path(r'restaurant/(\w{1,10})',views.restaurant.show_restaurant, name='show_restaurant'),
-
-
-     
+    path('restaurant/',views.restaurant.show_restaurant,name='restaurant'),
+    path('comment/<int:id>',views.restaurant.comment,name='comment'),
+    path('comment2/<int:id>',views.restaurant.comment2,name='comment2'),
+    re_path(r'restaurant/(\w{1,10})',views.restaurant.show_menu, name='show_restaurant'),   
     
 ]

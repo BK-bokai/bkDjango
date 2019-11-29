@@ -5,9 +5,12 @@ from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
 from django.db.models import F
-from .models import Restaurant,Food,Author,Book
+from .models import Restaurant, Food, Author, Book
+from .comment_forms import CommentForm
 
 # Create your views here.
+
+
 class restaurant:
     def index(self):
         return HttpResponse('嗨媽我在這')
@@ -33,14 +36,82 @@ class restaurant:
         context = {
             'food1': food1,
             'food2': food2,
-            'foods': [food1,food2]
+            'foods': [food1, food2]
         }
         return render(request, 'momapp/menu.html', context)
-    def show_restaurant(request,restaurant):
-        r=get_object_or_404(Restaurant,name=restaurant)
+
+    def show_menu(request, restaurant):
+        r = get_object_or_404(Restaurant, name=restaurant)
         # return HttpResponse(r)
-        context={
-            'restaurant' : r
+        context = {
+            'restaurant': r
+        }
+        return render(request, 'restaurants/menu.html', context)
+
+    def show_restaurant(request):
+        r = Restaurant.objects.all()
+        context = {
+            'restaurants': r
         }
         return render(request, 'restaurants/index.html', context)
 
+    def comment(request, id):
+        r = get_object_or_404(Restaurant, id=id)
+
+        if request.method == "POST":
+            visitor = request.POST['visitor']
+            content = request.POST['content']
+            email = request.POST['email']
+            date_time = timezone.localtime(timezone.now())
+            errors = []
+            if any(not request.POST[k] for k in request.POST):
+                errors.append('* 有空白欄位，請不要留空')
+
+            if (not ('@' in request.POST['email'])) or (not ('.' in request.POST['email'])):
+                errors.append('* 請輸入正確Email格式')
+
+            if not(errors):
+                r.comment_set.create(
+                    visitor=visitor, email=email, content=content, publish_date=date_time)
+                visitor, email, content = ['', '', '']
+                # 使用HttpResponseRedirect(reverse())是為了防止用戶按上一頁重新POST造成錯誤
+                return HttpResponseRedirect(reverse('restaurant:comment', args=(r.id,)))
+            else:
+                context = {
+                    'visitor': visitor,
+                    'content': content,
+                    'email': email,
+                    'errors': errors,
+                    'restaurant': r
+                }
+                return render(request, 'restaurants/comment.html', context)
+        else:
+            context = {
+                'restaurant': r
+            }
+            return render(request, 'restaurants/comment.html', context)
+
+    def comment2(request, id):
+        # 判斷是不是post過來的，如果是就進行判斷如果is_valid為true就創建一則評論，False則將這份form回傳回去
+        # 若不是post過來得就會傳一份空白表單過去
+        r = get_object_or_404(Restaurant, id=id)
+        if request.method == "POST":
+            f = CommentForm(request.POST)
+            if f.is_valid():
+                visitor = f.cleaned_data['visitor']
+                content = f.cleaned_data['content']
+                email   = f.cleaned_data['email']
+                date_time = timezone.localtime(timezone.now())
+                r.comment_set.create(
+                    visitor=visitor, email=email, content=content, publish_date=date_time)
+                visitor, email, content = ['', '', '']
+                # 使用HttpResponseRedirect(reverse())是為了防止用戶按上一頁重新POST造成錯誤
+                return HttpResponseRedirect(reverse('restaurant:comment2', args=(r.id,)))
+        else:
+            f = CommentForm(initial={'content': '我沒意見'})
+
+        context = {
+            'restaurant': r,
+            'f' : f
+        }
+        return render(request, 'restaurants/comment2.html', context)
