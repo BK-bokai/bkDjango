@@ -32,7 +32,6 @@
                         <th>店名</th>
                         <th>電話</th>
                         <th>地址</th>
-                        <th>評價</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -41,7 +40,6 @@
                         <td><a class="nav-link active" href="{% url 'restaurant:show_restaurant' r.name %}">{{r.name}}</a></td>
                         <td>{{r.phone_number}}</td>
                         <td>{{r.address}}</td>
-                        <td><a class="nav-link active" href="{% url 'restaurant:comment2' r.id %}">查看評價</a></td>
                     </tr>
                     {% endfor %}
                 </tbody>
