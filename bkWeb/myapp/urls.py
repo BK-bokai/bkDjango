@@ -19,6 +19,13 @@ from . import views
 
 app_name = 'myapp'
 urlpatterns = [
-    path('',views.index, name='index'),
+    # path('',views.index, name='index'),
+    path('',views.index.as_view(), name='index'),
     path('addStore',views.add_store, name='add_store'),
+    path('FormSet',views.FormSet,name='Formset'),
+    path('InlineForm',views.inlineformset,name='InlineForm'),
+
+    path('StoreList',views.StoreList.as_view(),name='StoreList'),
+    path('Store/<int:pk>',views.StoreDetail.as_view(),name='StoreDetail'),
+    path('StoreForm',views.StoreForm.as_view(),name='StoreForm')
 ]

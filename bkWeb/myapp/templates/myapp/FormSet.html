@@ -1,0 +1,27 @@
+{% extends '../layout/master.html' %}
+{% load static %}
+{% block title %} myapp首頁 {% endblock %}
+
+
+{% block body %}
+
+<div class="container body">
+    <form action="" method="post">
+        {% csrf_token %}
+        <h4>產品資料</h4>
+        {% for form in formset %}
+        {% for field in form %}
+        <div class="row">
+            <label for="{{ field.id_for_label }}">{{field.label}}</label>
+            {{ field }}
+            <!-- 錯誤訊息紅字顯示 -->
+            <p class="text-danger">{{ field.errors.as_text }}</p>
+        </div>
+        {% endfor %}
+        {% endfor %}
+        <div class="row FormBtn">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

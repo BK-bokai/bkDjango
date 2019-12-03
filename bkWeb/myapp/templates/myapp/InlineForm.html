@@ -1,0 +1,32 @@
+{% extends '../layout/master.html' %}
+{% load static %}
+{% block title %} myapp首頁 {% endblock %}
+
+
+{% block body %}
+
+<div class="container body">
+
+    <form action="" method="post">
+        {% csrf_token %}
+        <h4>商店資料</h4>
+        <div class="row">
+            {{sf}}
+        </div>
+
+        <h4>產品資料</h4>
+        {{ ff.management_form }}
+        {{ ff.non_form_errors }}
+        {% for form in ff %}
+        <div class="row">
+            {{form}}
+        </div>
+        {% endfor %}
+
+        <div class="row FormBtn">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+
+    </form>
+</div>
+{% endblock %}
