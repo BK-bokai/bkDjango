@@ -5,7 +5,7 @@ from django.urls import reverse
 from django.views import generic
 from django.views.generic import ListView, DetailView
 from django.views.generic.base import TemplateView
-from django.views.generic.edit import FormView,CreateView
+from django.views.generic.edit import CreateView, UpdateView
 from django.utils import timezone
 from django.db.models import F
 from .store_form import StoreForm, FoodForm
@@ -97,37 +97,6 @@ def add_store(request):
     return render(request, 'myapp/addStore.html', context)
 
 
-# class StoreForm(CreateView):
-#     template_name = 'myapp/StoreForm.html'
-#     form_class = InlineStoreForm
-
-#     def get_success_url(self):
-#         return reverse('StoreForm')
-
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         if self.request.POST:
-#             context['sf'] = InlineStoreForm(self.request.POST)
-#             context['ff'] = InlineFoodFormSet(self.request.POST)
-#         else:
-#             context['sf'] = InlineStoreForm()
-#             context['ff'] = InlineFoodFormSet()
-#         return context
-
-#         # Validate forms
-#     def form_valid(self, form):
-#         context = self.get_context_data()
-#         ff = context['ff']
-#         if ff.is_valid() and form.is_valid():
-#             self.object = form.save() # saves Father and Children
-#             return HttpResponseRedirect(reverse('myapp:StoreForm'))
-#         else:
-#             return self.render_to_response(self.get_context_data(form=form))
-
-#     # 處理沒通過的表單
-#     def form_invalid(self, form):
-#         return self.render_to_response(self.get_context_data(form=form))
-        
 class StoreForm(CreateView):
     model = Store
     template_name = 'myapp/StoreForm.html'
@@ -172,7 +141,7 @@ class StoreForm(CreateView):
         FoodForm.instance = self.object
         FoodForm.save()
         return HttpResponseRedirect(self.get_success_url())
-    
+
     def form_invalid(self, form, FoodForm):
         """
         Called if a form is invalid. Re-renders the context data with the
@@ -181,6 +150,45 @@ class StoreForm(CreateView):
         return self.render_to_response(
             self.get_context_data(sf=form,
                                   ff=FoodForm))
+
+
+class UpdateStoreForm(UpdateView):
+    model = Store
+    template_name = 'myapp/UpdateStoreForm.html'
+    form_class = InlineStoreForm
+    queryset = Store.objects.all()  # 這很重要
+
+    def get(self, request, pk, *args, **kwargs):
+        self.pk = pk
+        return super().get(self, request, pk=pk, *args, **kwargs)
+
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.request.POST:
+            form = InlineStoreForm(
+                self.request.POST, instance=self.object)
+            FoodForm = InlineFoodFormSet(
+                self.request.POST, instance=self.object)
+
+            context['ff'] = FoodForm
+            context['form'] = form
+            if (form.is_valid() and FoodForm.is_valid()):
+                return HttpResponse(FoodForm)
+                return self.form_valid(form, FoodForm)
+
+
+        else:
+            form = InlineStoreForm(instance=self.object)
+            FoodForm = InlineFoodFormSet(instance=self.object)
+            context['form'] = form
+            context['ff'] = FoodForm
+
+        return context
+
+
+
+
 
 class StoreList(ListView):
     template_name = 'myapp/StoreList.html'
@@ -195,7 +203,7 @@ class StoreList(ListView):
     # 自定義想要回傳的額外變數
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['st1'] = Store.objects.get(id=1)
+        context['st1'] = Store.objects.get(45)
         return context
 
 

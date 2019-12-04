@@ -27,5 +27,6 @@ urlpatterns = [
 
     path('StoreList',views.StoreList.as_view(),name='StoreList'),
     path('Store/<int:pk>',views.StoreDetail.as_view(),name='StoreDetail'),
-    path('StoreForm',views.StoreForm.as_view(),name='StoreForm')
+    path('StoreForm',views.StoreForm.as_view(),name='StoreForm'),
+    path('StoreForm/<int:pk>',views.UpdateStoreForm.as_view(),name='UpdateStoreForm')
 ]

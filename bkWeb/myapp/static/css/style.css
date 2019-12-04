@@ -5,3 +5,8 @@ div.body{
 .FormBtn{
     margin-top: 3%;
 }
+
+.add , .add:focus{
+    box-shadow: none;
+    margin-top: 1%;
+}

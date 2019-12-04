@@ -37,7 +37,7 @@
 <script src="{% static 'js/jquery.formset.js' %}"></script>
 
 <script>
-    $('.add').on('click', function () {
+    $('.add').on('click', function (e) {
 
         let div = $("div#food")
         let FoodName = $("input[name$='food_name']:last").clone();
@@ -62,13 +62,13 @@
         FoodPrice.attr('id', "id_food_set-" + String(num + 1) + "-price");
         FoodPrice.val('');
 
-        div.append(FoodLabel)
-        div.append(FoodName)
+        div.append(FoodLabel);
+        div.append(FoodName);
 
-        div.append(PriceLabel)
-        div.append(FoodPrice)
+        div.append(PriceLabel);
+        div.append(FoodPrice);
 
-
+        return false;
 
 
     })

@@ -1,4 +1,6 @@
 from django.db import models
+from django.http import HttpResponse, Http404, HttpResponseRedirect
+
 
 # Create your models here.
 class Store(models.Model):
@@ -8,6 +10,8 @@ class Store(models.Model):
     address = models.CharField(max_length=100)
     def __str__(self):
         return self.store_name
+    def get_absolute_url(self):
+		return HttpResponseRedirect(reverse('myapp:UpdateStoreForm', args=(self.id)))
 
 class Food(models.Model):
     food_name = models.CharField(max_length=30)
