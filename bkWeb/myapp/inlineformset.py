@@ -15,8 +15,8 @@ class InlineStoreForm(ModelForm):
         }
 
 
-InlineFoodFormSet = inlineformset_factory(Store, Food, fields=('food_name','price'),
-                                          extra=3, can_delete=False, max_num=5,widgets={
+InlineFoodFormSet = inlineformset_factory(Store, Food, fields=('food_name','price'),max_num=10,extra=1,
+                                        can_delete=False,widgets={
     'food_name': forms.TextInput(attrs={'class':'form-control','placeholder':'薑絲炒大腸'}),
     'price'    : forms.TextInput(attrs={'class':'form-control','placeholder':'100'})
 })

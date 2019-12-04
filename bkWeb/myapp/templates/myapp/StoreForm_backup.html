@@ -46,32 +46,6 @@
         prefix: 'form',
         deleteButtonClassname: 'delete-row'
     });
-
-    let num = 1
-    $('.add-row').on('click',function(){
-        num += 1;
-        let FoodName =$("input[name='food_set-0-food_name']:last");
-        let FoodLabel=$("label[for='id_food_set-0-food_name']:last")
-        let FoodPrice=$("input[name='food_set-0-price']:last");
-        let PriceLabel=$("label[for='id_food_set-0-price']:last")
-
-        let totalVal = $("input[name='food_set-TOTAL_FORMS']")
-    
-        totalVal.val(num)
-
-        FoodName.attr('name',"food_set-"+String(num-1)+"-food_name");
-        FoodName.attr('id',"id_food_set-"+String(num-1)+"-food_name");
-
-        FoodLabel.attr('for',"id_food_set-"+String(num-1)+"-food_name");
-        PriceLabel.attr('for',"id_food_set-"+String(num-1)+"-price");
-
-        FoodPrice.attr('name',"food_set-"+String(num-1)+"-price");
-        FoodPrice.attr('id',"id_food_set-"+String(num-1)+"-price");
-
-
-        console.log(FoodName);
-        console.log(FoodPrice);
-    })
 </script>
 
 

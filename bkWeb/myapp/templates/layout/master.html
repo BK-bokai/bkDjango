@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
-        {% load static %}
+{% load static %}
+
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -12,6 +13,7 @@
 
     <title>{% block title %}{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
 
 </head>
 
@@ -29,10 +31,12 @@
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
 
+
+
     {% include '../layout/menu.html' %}
 
     {% block body %}{% endblock %}
-    
+
 
 
 </body>
