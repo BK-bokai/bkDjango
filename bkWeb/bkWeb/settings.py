@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'myapp'
 ]
 
-AUTH_USER_MODEL = 'Users.User' # new
+AUTH_USER_MODEL = 'Users.User'  # new
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -58,7 +58,9 @@ ROOT_URLCONF = 'bkWeb.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        # 'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')], # <- 加入這個設置
+
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -131,4 +133,3 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
-

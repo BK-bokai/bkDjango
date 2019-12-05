@@ -97,6 +97,7 @@ def add_store(request):
     return render(request, 'myapp/addStore.html', context)
 
 
+
 class StoreForm(CreateView):
     model = Store
     template_name = 'myapp/StoreForm.html'
