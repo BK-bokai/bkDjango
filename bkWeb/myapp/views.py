@@ -160,37 +160,57 @@ class UpdateStoreForm(UpdateView):
 
     def get(self, request, pk, *args, **kwargs):
         self.pk = pk
-        return super().get(self, request, pk=pk, *args, **kwargs)
+        self.object = self.get_object()
 
+        form = InlineStoreForm(instance=self.object)
+        FoodForm = InlineFoodFormSet(instance=self.object)
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        if self.request.POST:
-            form = InlineStoreForm(
-                self.request.POST, instance=self.object)
-            FoodForm = InlineFoodFormSet(
-                self.request.POST, instance=self.object)
+        return self.render_to_response(
+            self.get_context_data(sf=form,
+                                  ff=FoodForm))
+        
 
-            context['ff'] = FoodForm
-            context['form'] = form
-            if (form.is_valid() and FoodForm.is_valid()):
-                return HttpResponse(FoodForm)
-                return self.form_valid(form, FoodForm)
+    def post(self, request, pk, *args, **kwargs):
+        """
+        Handles POST requests, instantiating a form instance and its inline
+        formsets with the passed POST variables and then checking them for
+        validity.
+        """
+        self.pk = pk
+        self.object = self.get_object()
+        form = InlineStoreForm(
+            self.request.POST, instance=self.object)
+        FoodForm = InlineFoodFormSet(
+            self.request.POST, instance=self.object)
 
-
+        if (form.is_valid() and FoodForm.is_valid()):
+            return self.form_valid(form, FoodForm)
         else:
-            form = InlineStoreForm(instance=self.object)
-            FoodForm = InlineFoodFormSet(instance=self.object)
-            context['form'] = form
-            context['ff'] = FoodForm
+            return self.form_invalid(form, FoodForm)
 
-        return context
+    def form_valid(self, form, FoodForm):
+        """
+        Called if all forms are valid. Creates a Recipe instance along with
+        associated Ingredients and Instructions and then redirects to a
+        success page.
+        """
+        form.save()
+        FoodForm.save()
+        return HttpResponseRedirect(reverse('myapp:UpdateStoreForm', args=[self.pk]))
 
-
+    def form_invalid(self, form, FoodForm):
+        """
+        Called if a form is invalid. Re-renders the context data with the
+        data-filled forms and errors.
+        """
+        return self.render_to_response(
+            self.get_context_data(sf=form,
+                                  ff=FoodForm))
 
 
 
 class StoreList(ListView):
+
     template_name = 'myapp/StoreList.html'
 
     # 與get_queryset配對的變數名稱
@@ -203,7 +223,6 @@ class StoreList(ListView):
     # 自定義想要回傳的額外變數
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['st1'] = Store.objects.get(45)
         return context
 
 
