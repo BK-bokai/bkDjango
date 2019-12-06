@@ -13,6 +13,7 @@ from .Formset_form import FoodFormSet
 from .inlineformset import InlineStoreForm, InlineFoodFormSet
 from .models import Store, Food
 from django.shortcuts import render_to_response
+from django .contrib.auth.decorators import login_required
 
 
 # Create your views here.
@@ -217,6 +218,8 @@ class StoreList(ListView):
     # 與get_queryset配對的變數名稱
     context_object_name = 'StoreList'
     # 定義回傳的資料
+    # def get(self, request, *args, **kwargs):
+    #     return super().get(self, request, *args, **kwargs)
 
     def get_queryset(self):
         return Store.objects.all()

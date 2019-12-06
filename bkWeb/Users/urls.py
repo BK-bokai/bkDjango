@@ -23,9 +23,11 @@ urlpatterns = [
     # path('Login', views.Login.as_view(), name='login'),
     # path('Home', views.Home.as_view(), name='Home'),
     # path('logout', views.Logout, name='Logout'),
+    path('register/',views.register.as_view(),name='register'),
 
     path('login/', authViews.LoginView.as_view(), name='login'),
     path('logout/', authViews.LogoutView.as_view(), name='logout'),
+
 
     path('password_change/', authViews.PasswordChangeView.as_view(),
          name='password_change'),

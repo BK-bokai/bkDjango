@@ -15,11 +15,16 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
+import django
+import os
+
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "UserAdmin.settings")
+django.setup()
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('myapp/', include('myapp.urls', namespace='Myapp')),
-    path('Auth/', include('Users.urls', namespace='Users')),
-    path('accounts/', include('django.contrib.auth.urls')),
+    path('accounts/', include('Users.urls', namespace='Users')),
+    # path('accounts/', include('django.contrib.auth.urls',namespace='User')),
 
 ]

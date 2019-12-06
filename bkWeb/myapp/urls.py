@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from . import views
+from django .contrib.auth.decorators import login_required
 
 app_name = 'myapp'
 urlpatterns = [
@@ -25,7 +26,7 @@ urlpatterns = [
     path('FormSet',views.FormSet,name='Formset'),
     path('InlineForm',views.inlineformset,name='InlineForm'),
 
-    path('StoreList',views.StoreList.as_view(),name='StoreList'),
+    path('StoreList',login_required(views.StoreList.as_view()),name='StoreList'),
     path('Store/<int:pk>',views.StoreDetail.as_view(),name='StoreDetail'),
     path('StoreForm',views.StoreForm.as_view(),name='StoreForm'),
     path('StoreForm/<int:pk>',views.UpdateStoreForm.as_view(),name='UpdateStoreForm')

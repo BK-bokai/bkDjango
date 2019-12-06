@@ -21,8 +21,8 @@
             </li>
             {% if request.user.is_authenticated %}
             <li class="nav-item">
-                <a class="nav-link disabled" href="{% url 'Users:Logout' %}" tabindex="-1"
-                    aria-disabled="true">Logout</a>
+                <a class="nav-link disabled" href="{% url 'Users:logout' %}" tabindex="-1"
+                    aria-disabled="true">logout</a>
             </li>
             {% endif %}
         </ul>
