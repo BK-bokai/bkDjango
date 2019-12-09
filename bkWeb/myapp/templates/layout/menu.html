@@ -11,13 +11,10 @@
                     aria-disabled="true">{{request.user.get_username}}</a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="{% url myapp:StoreList %}">商店清單<span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Features</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Pricing</a>
+                <a class="nav-link" href="{% url 'myapp:StoreForm' %}">新增商店</a>
             </li>
             {% if request.user.is_authenticated %}
             <li class="nav-item">

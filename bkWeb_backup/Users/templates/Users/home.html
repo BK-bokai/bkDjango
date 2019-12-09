@@ -1,0 +1,11 @@
+{% extends '../layout/master.html' %}
+{% load static %}
+{% block title %} myapp首頁 {% endblock %}
+
+
+{% block body %}
+<script src="{% static 'js/test.js' %}"></script>
+<div class="container body">
+    {{Users}}
+</div>
+{% endblock %}

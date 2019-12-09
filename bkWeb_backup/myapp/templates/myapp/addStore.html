@@ -1,0 +1,38 @@
+{% extends '../layout/master.html' %}
+{% load static %}
+{% block title %} myapp首頁 {% endblock %}
+
+
+{% block body %}
+
+<div class="container body">
+    <form action="" method="post">
+        {% csrf_token %}
+        <h4>商店資料</h4>
+        <div class="row">
+            {% for field in StoreForm %}
+
+            <label for="{{ field.id_for_label }}">{{field.label}}</label>
+            {{ field }}
+            <!-- 錯誤訊息紅字顯示 -->
+            <p class="text-danger">{{ field.errors.as_text }}</p>
+            {% endfor %}
+        </div>
+
+        <hr>
+        <h4>產品資料</h4>
+        <div class="row">
+            {% for field in FoodForm %}
+
+            <label for="{{ field.id_for_label }}">{{field.label}}</label>
+            {{ field }}
+            <!-- 錯誤訊息紅字顯示 -->
+            <p class="text-danger">{{ field.errors.as_text }}</p>
+            {% endfor %}
+        </div>
+        <div class="row FormBtn">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

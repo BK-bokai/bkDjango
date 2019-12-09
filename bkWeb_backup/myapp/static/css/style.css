@@ -1,0 +1,12 @@
+div.body{
+    margin-top: 3%;
+}
+
+.FormBtn{
+    margin-top: 3%;
+}
+
+.add , .add:focus{
+    box-shadow: none;
+    margin-top: 1%;
+}

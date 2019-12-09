@@ -1,0 +1,33 @@
+{% extends '../layout/master.html' %}
+{% load static %}
+{% block title %} 商家列表 {% endblock %}
+
+
+{% block body %}
+<div class="container body">
+    <div class="row bg-success">
+        <h3>{{Store.store_name}}</h3>
+    </div>
+    <div class="row">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">菜名</th>
+                    <th scope="col">價格</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for food in Store.food_set.all %}
+                <tr>
+                    <td>{{food.food_name}}</td>
+                    <td>{{food.price}}</td>
+                </tr>
+                {% endfor %}
+
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+{% endblock %}

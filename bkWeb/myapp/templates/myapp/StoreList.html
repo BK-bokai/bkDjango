@@ -16,13 +16,21 @@
             </tr>
         </thead>
         <tbody>
+
             {% for store in StoreList %}
             <tr>
                 <td>{{store.boss}}</td>
                 <td>{{store.store_name}}</td>
                 <td>{{store.phone}}</td>
                 <td>{{store.address}}</td>
-                <td>前往菜單</td>
+                <td>
+                    <a href="{% url 'Myapp:StoreDetail' store.id %}" class="btn btn-primary btn-sm" role="button"
+                        aria-pressed="true">前往菜單</a>
+                </td>
+                <td>
+                    <a href="{% url 'Myapp:Comment' store.id %}" class="btn btn-primary btn-sm" role="button"
+                        aria-pressed="true">給予評論</a>
+                </td>
             </tr>
             {% endfor %}
 

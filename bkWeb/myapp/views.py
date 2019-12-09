@@ -11,9 +11,10 @@ from django.db.models import F
 from .store_form import StoreForm, FoodForm
 from .Formset_form import FoodFormSet
 from .inlineformset import InlineStoreForm, InlineFoodFormSet
-from .models import Store, Food
+from .models import Store, Food, Comment
 from django.shortcuts import render_to_response
 from django .contrib.auth.decorators import login_required
+from .commentForm import CommentForm
 
 
 # Create your views here.
@@ -98,7 +99,6 @@ def add_store(request):
     return render(request, 'myapp/addStore.html', context)
 
 
-
 class StoreForm(CreateView):
     model = Store
     template_name = 'myapp/StoreForm.html'
@@ -170,7 +170,6 @@ class UpdateStoreForm(UpdateView):
         return self.render_to_response(
             self.get_context_data(sf=form,
                                   ff=FoodForm))
-        
 
     def post(self, request, pk, *args, **kwargs):
         """
@@ -210,7 +209,6 @@ class UpdateStoreForm(UpdateView):
                                   ff=FoodForm))
 
 
-
 class StoreList(ListView):
 
     template_name = 'myapp/StoreList.html'
@@ -237,3 +235,60 @@ class StoreDetail(DetailView):
 
     def get_queryset(self):
         return Store.objects.all()
+
+
+class Comment(CreateView):
+    model = Comment
+    template_name = 'myapp/Comment.html'
+    form_class = CommentForm
+    success_url = 'StoreForm'
+
+    def get(self, request, pk, *args, **kwargs):
+        self.pk = pk
+        self.object = None
+        return super().get(self, request, pk, *args, **kwargs)
+    # 自定義想要回傳的額外變數
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        store = Store.objects.get(pk=self.pk)
+        context['store'] = store
+        return context
+
+    def post(self, request, pk, *args, **kwargs):
+        self.pk=pk
+        self.object = None
+        store = Store.objects.get(pk=self.pk)
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        if form.is_valid():
+            visitor = request.POST['visitor']
+            email   = request.POST['email']
+            content = request.POST['content']
+            publish_date = timezone.localtime()
+            store.comment_set.create(visitor=visitor,email=email,content=content,publish_date=publish_date)
+            return HttpResponseRedirect(reverse('myapp:Comment', args=[self.pk]))
+        else:
+            return self.render_to_response(
+                self.get_context_data(form=form,
+                                      store=store))
+
+    # def form_valid(self, form, FoodForm):
+    #     """
+    #     Called if all forms are valid. Creates a Recipe instance along with
+    #     associated Ingredients and Instructions and then redirects to a
+    #     success page.
+    #     """
+    #     self.object = form.save()
+    #     FoodForm.instance = self.object
+    #     FoodForm.save()
+    #     return HttpResponseRedirect(self.get_success_url())
+
+    # def form_invalid(self, form, FoodForm):
+    #     """
+    #     Called if a form is invalid. Re-renders the context data with the
+    #     data-filled forms and errors.
+    #     """
+    #     return self.render_to_response(
+    #         self.get_context_data(sf=form,
+    #                               ff=FoodForm))

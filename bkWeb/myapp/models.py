@@ -23,3 +23,12 @@ class Food(models.Model):
 
     def __str__(self):
         return self.food_name
+
+class Comment(models.Model):
+    visitor = models.CharField(max_length=20)
+    content = models.CharField(max_length=200)
+    email   = models.CharField(max_length=200)
+    publish_date = models.DateTimeField()
+    Store = models.ForeignKey(Store,on_delete=models.CASCADE)
+    def __str__(self):
+        return self.visitor

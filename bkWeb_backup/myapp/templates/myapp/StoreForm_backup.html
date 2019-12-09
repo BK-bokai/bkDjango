@@ -1,0 +1,80 @@
+{% extends '../layout/master.html' %}
+{% load static %}
+{% block title %} myapp首頁 {% endblock %}
+
+
+{% block body %}
+
+<div class="container body">
+
+    <form id="father-form" action="" method="post">
+        {% csrf_token %}
+
+        {{form}}
+        <hr>
+
+        {{ ff.management_form }}
+        {{ ff.non_form_errors }}
+
+        <div id="formset-wrapper">
+            <div class="items">
+                {% for fform in ff.forms %}
+
+                <div class="item" id="id_{{ ff.prefix }}">
+                    {{ fform.as_p }}
+                </div>
+                {% endfor %}
+            </div>
+            <!-- <a href="#" id="add-item">Add row</a> -->
+        </div>
+
+
+
+        <div class="row FormBtn">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+
+
+    </form>
+</div>
+
+<script src="{% static 'js/jquery.formset.js' %}"></script>
+
+<script>
+    $('#formset-wrapper').formset({
+        templateId: '__TEMPLATE_ID__',
+        prefix: 'form',
+        deleteButtonClassname: 'delete-row'
+    });
+
+    let num = 1
+    $('.add-row').on('click',function(){
+        num += 1;
+        let FoodName =$("input[name='food_set-0-food_name']:last");
+        let FoodLabel=$("label[for='id_food_set-0-food_name']:last")
+        let FoodPrice=$("input[name='food_set-0-price']:last");
+        let PriceLabel=$("label[for='id_food_set-0-price']:last")
+
+        let totalVal = $("input[name='food_set-TOTAL_FORMS']")
+    
+        totalVal.val(num)
+
+        FoodName.attr('name',"food_set-"+String(num-1)+"-food_name");
+        FoodName.attr('id',"id_food_set-"+String(num-1)+"-food_name");
+
+        FoodLabel.attr('for',"id_food_set-"+String(num-1)+"-food_name");
+        PriceLabel.attr('for',"id_food_set-"+String(num-1)+"-price");
+
+        FoodPrice.attr('name',"food_set-"+String(num-1)+"-price");
+        FoodPrice.attr('id',"id_food_set-"+String(num-1)+"-price");
+
+
+        console.log(FoodName);
+        console.log(FoodPrice);
+    })
+</script>
+
+
+
+
+{% endblock %}

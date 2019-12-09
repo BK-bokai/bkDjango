@@ -1,0 +1,47 @@
+{% extends '../layout/master.html' %}
+{% load static %}
+{% block title %} myapp首頁 {% endblock %}
+
+
+{% block body %}
+
+<div class="container body">
+    {{store.store_name}} 共有 {{store.comment_set.all|length}} 則評論
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">訪問者</th>
+                <th scope="col">信箱</th>
+                <th scope="col">評論</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for c in store.comment_set.all %}
+            <tr>
+                <td>{{c.visitor}}</td>
+                <td>{{c.email}}</td>
+                <td>{{c.content}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <form id="" action="" method="post">
+        {% csrf_token %}
+
+        {{form}}
+
+        <div class="row FormBtn">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+
+
+    </form>
+</div>
+
+<script src="{% static 'js/jquery.formset.js' %}"></script>
+
+
+
+{% endblock %}

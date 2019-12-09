@@ -1,0 +1,23 @@
+{% extends '../layout/master.html' %}
+{% load static %}
+{% block title %} myapp首頁 {% endblock %}
+
+
+{% block body %}
+<script src="{% static 'js/test.js' %}"></script>
+<div class="container body">
+    <div class="row">
+        <img src="{% static 'images/600_php0juDSZ.jpg' %}" alt="Responsive image">
+    </div>
+    
+    <div class="row">
+        <div class="col-6">
+            大家好
+        </div>
+        <div class="col-6">
+            我是***
+            現在是{{time}}
+        </div>
+    </div>
+</div>
+{% endblock %}

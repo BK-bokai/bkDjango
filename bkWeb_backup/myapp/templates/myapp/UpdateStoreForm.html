@@ -1,0 +1,82 @@
+{% extends '../layout/master.html' %}
+{% load static %}
+{% block title %} myapp首頁 {% endblock %}
+
+
+{% block body %}
+
+<div class="container body">
+
+    <form id="father-form" action="" method="post">
+        {% csrf_token %}
+
+        {{form}}
+        <hr>
+
+        {{ ff.management_form }}
+        {{ ff.non_form_errors }}
+        <div id='food'>
+            {{ff}}
+        </div>
+
+
+        <div class="row mx-auto">
+            <a href="#" class="btn btn-primary  add">add</a>
+        </div>
+
+
+
+        <div class="row FormBtn">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+
+
+    </form>
+</div>
+
+<script src="{% static 'js/jquery.formset.js' %}"></script>
+
+<script>
+    $('.add').on('click', function (e) {
+
+        let div = $("div#food")
+        let FoodName = $("input[name$='food_name']:last").clone();
+        let FoodLabel = $("label[for$='food_name']:last").clone();
+        let FoodPrice = $("input[name$='price']:last").clone();
+        let PriceLabel = $("label[for$='price']:last").clone();
+
+        let totalVal = $("input[name='food_set-TOTAL_FORMS']")
+
+        let num = parseInt(FoodName.attr('name').match(/\d+/))
+
+        totalVal.val(num + 2)
+
+        FoodName.attr('name', "food_set-" + String(num + 1) + "-food_name");
+        FoodName.attr('id', "id_food_set-" + String(num + 1) + "-food_name");
+        FoodName.val('');
+
+        FoodLabel.attr('for', "id_food_set-" + String(num + 1) + "-food_name");
+        PriceLabel.attr('for', "id_food_set-" + String(num + 1) + "-price");
+
+        FoodPrice.attr('name', "food_set-" + String(num + 1) + "-price");
+        FoodPrice.attr('id', "id_food_set-" + String(num + 1) + "-price");
+        FoodPrice.val('');
+
+        div.append(FoodLabel);
+        div.append(FoodName);
+
+        div.append(PriceLabel);
+        div.append(FoodPrice);
+
+        return false;
+
+    })
+
+
+
+</script>
+
+
+
+
+{% endblock %}
