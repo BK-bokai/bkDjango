@@ -21,4 +21,5 @@ urlpatterns = [
     path('restaurants/',include('restaurants.urls')),
     path('himom',include('momapp.urls')),
     path('admin/', admin.site.urls),
+    path('Home/',include('Home.urls'))
 ]

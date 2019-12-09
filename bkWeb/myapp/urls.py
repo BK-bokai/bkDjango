@@ -26,7 +26,7 @@ urlpatterns = [
     path('FormSet',views.FormSet,name='Formset'),
     path('InlineForm',views.inlineformset,name='InlineForm'),
 
-    path('StoreList',login_required(views.StoreList.as_view()),name='StoreList'),
+    path('StoreList',login_required(function=views.StoreList.as_view(),login_url='/test/login/'),name='StoreList'),
     path('Store/<int:pk>',login_required(views.StoreDetail.as_view()),name='StoreDetail'),
     path('StoreForm',login_required(views.StoreForm.as_view()),name='StoreForm'),
     path('StoreForm/<int:pk>',login_required(views.UpdateStoreForm.as_view()),name='UpdateStoreForm'),

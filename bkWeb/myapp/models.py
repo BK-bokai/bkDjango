@@ -32,3 +32,9 @@ class Comment(models.Model):
     Store = models.ForeignKey(Store,on_delete=models.CASCADE)
     def __str__(self):
         return self.visitor
+    class Meta:
+        ordering = ['publish_date']
+        permissions = (
+                ("can_comment", "Can comment"),  # 只有一個權限時，千萬不要忘了逗號！
+            )
+        # 第一個元素是codename字串，第二個元素是name字串，至於不需要content_type的原因很簡單，我們在模型下直接定義了權限，content_type會由Django自動地幫我們取得

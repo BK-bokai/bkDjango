@@ -1,0 +1,39 @@
+{% extends '../layout/master.html' %}
+{% load static %}
+{% block title %} myapp首頁 {% endblock %}
+
+
+{% block body %}
+<script src="{% static 'js/test.js' %}"></script>
+<div class="container body">
+    <form action="" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            {% for field in form %}
+            <label for="{{ field.id_for_label }}">{{field.label}}</label>
+            {{ field }}
+            <!-- 錯誤訊息紅字顯示 -->
+            {% if field.errors.as_text %}
+            <div class="alert alert-danger" role="alert">
+                {{ field.errors.as_text }}
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+
+        <!-- <input type="hidden" name="next" value="profile" /> -->
+        <!--利用此行-->
+        {% if errors %}
+        <div class="alert alert-danger" role="alert">
+            {{errors}}
+        </div>
+
+        {% endif %}
+
+        <div class="row FormBtn">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </form>
+
+</div>
+{% endblock %}
