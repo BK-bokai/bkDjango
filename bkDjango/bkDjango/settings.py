@@ -20,7 +20,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'cw2j@r0^saecf3p^mdmv^iqci3xv=nmw-&qn9jnea-tx33*)93'
+SECRET_KEY = 'j3i(=o7s@la^3^m-@8ue7+u1lsv_n3+$%%228x@t5^bgvh(20q'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -31,16 +31,20 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'momapp',
-    'restaurants',
-    'polls',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'easy_thumbnails',
+    'sorl.thumbnail',
+    'Users',
+    'Home',
+    'Image',
 ]
+
+AUTH_USER_MODEL = 'Users.User' # new
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -77,10 +81,15 @@ WSGI_APPLICATION = 'bkDjango.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
+
 DATABASES = {
     'default': {
-        # 'ENGINE': 'django.db.backends.sqlite3',
-        # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'bkDjango',  # 建立的資料庫
         'USER': 'root',  # mysql使用者名稱
@@ -125,17 +134,25 @@ USE_I18N = True
 
 USE_L10N = True
 
-# USE_TZ = False
 USE_TZ = True
-# When USE_TZ is True and the database doesn’t support time zones (e.g. SQLite, MySQL, Oracle), 
-# Django reads and writes datetimes in local time according to this option if it is set and in UTC if it isn’t.
 
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
 STATIC_ROOT = os.path.join(BASE_DIR, 'assets')
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static\images')
+# MEDIA_URL = '/'
+# IMAGE_PREFIX = 'images'
+
+THUMBNAIL_ALIASES = {
+  '': {
+    '75x75' : {'size': (75,75), 'crop':True},
+  },
+}

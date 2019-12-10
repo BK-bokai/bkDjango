@@ -5,7 +5,40 @@
 
 {% block body %}
 <script src="{% static 'js/test.js'%}"></script>
-<div class="container body">
-    hihi
+<div class="row container">
+    <div class="col s12 m6">
+        <div class="card">
+            <div class="card-image">
+                <img src=''>
+                <span class="card-title">{{index.title}}</span>
+            </div>
+            <div class="card-content">
+                <p class="text">
+                    {{index.content_one}}
+                </p>
+                <p class="text">
+                    {{index.content_two}}
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="intro col s12 m6">
+        <p class="text">
+            {{ student.content }}
+        </p>
+        {% for ss in s_skill %}
+        <a class="waves-effect waves-light btn"> {{ ss.skill }} </a>
+        {% endfor %}
+        <hr>
+        <p class="text">
+            {{ worker.content }}
+            <br>
+        </p>
+        {% for ws in w_skill %}
+        <a class="waves-effect waves-light btn"> {{ ws.skill }} </a>
+        {% endfor %}
+    </div>
 </div>
+
+
 {% endblock %}
