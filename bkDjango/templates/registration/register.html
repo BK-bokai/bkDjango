@@ -4,36 +4,38 @@
 
 
 {% block body %}
-<script src="{% static 'js/test.js' %}"></script>
-<div class="container body">
+<div class="row container login">
+    <script src="{% static 'js/test.js' %}"></script>
     <form action="" method="post">
         {% csrf_token %}
         <div class="form-group">
             {% for field in form %}
-            <label for="{{ field.id_for_label }}">{{field.label}}</label>
-            {{ field }}
-            <!-- 錯誤訊息紅字顯示 -->
-            {% if field.errors.as_text %}
-            <div class="alert alert-danger" role="alert">
-                {{ field.errors.as_text }}
+            <div class="row">
+                <div class="input-field col s12">
+                    <label for="{{ field.id_for_label }}"><span class="member">{{field.label}}</span></label>
+                    {{ field }}
+                </div>
             </div>
+            {% if field.errors.as_text %}
+            <ul class='form-errors'>
+                <li class="red-text"> {{ field.errors.as_text }}</li>
+            </ul>
             {% endif %}
             {% endfor %}
         </div>
 
-        <!-- <input type="hidden" name="next" value="profile" /> -->
-        <!--利用此行-->
-        {% if errors %}
-        <div class="alert alert-danger" role="alert">
-            {{errors}}
-        </div>
-
+        {% if form.non_field_errors %}
+        <ul class='form-errors'>
+            {% for error in form.non_field_errors %}
+            <li class="red-text">{{ error }}</li>
+            {% endfor %}
+        </ul>
         {% endif %}
+
 
         <div class="row FormBtn">
             <button type="submit" class="btn btn-primary">Submit</button>
         </div>
     </form>
-
 </div>
 {% endblock %}

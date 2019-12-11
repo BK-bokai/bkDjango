@@ -19,7 +19,12 @@ from .views import image
 
 app_name = 'image'
 urlpatterns = [
-    path('', image.bak_image.as_view(), name='image'),
+    path('', image.front_image.as_view(), name='image'),
+    path('backend', image.bak_image.as_view(), name='back_image'),
+    path('DELETE/<int:pk>',image.delete.as_view(), name='img_del'),
+    path('PATCH/<int:pk>',image.patch.as_view(), name='img_patch'),
+
+    # path('<int:a>/plus/<int:b>', views.add, name='add'),
     # path('', image.bak_image, name='image'),
 
 ]

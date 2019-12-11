@@ -15,9 +15,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
+import django
+import os
+
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "UserAdmin.settings")
+django.setup()
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('Home/',include('Home.urls')),
-    path('Images/',include('Image.urls'))
+    path('Images/',include('Image.urls')),
+    path('User/',include('Users.urls'))
 ]

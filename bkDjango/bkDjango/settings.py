@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
-
+from django.urls import reverse
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -156,3 +156,6 @@ THUMBNAIL_ALIASES = {
     '75x75' : {'size': (75,75), 'crop':True},
   },
 }
+
+LOGIN_REDIRECT_URL = reverse('image:back_image')
+LOGOUT_REDIRECT_URL = reverse('image:image')

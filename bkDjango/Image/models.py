@@ -3,8 +3,8 @@ from sorl.thumbnail import ImageField, get_thumbnail
 
 # Create your models here.
 class Images(models.Model):
-    # path    = models.TextField()
-    path    = models.ImageField()
+    path    = models.TextField()
+    # path    = models.ImageField()
     publish = models.BooleanField()
     index   = models.BooleanField()
     create_at = models.DateTimeField()

@@ -1,0 +1,17 @@
+{% extends '../layout/master.html' %}
+{% load static %}
+{% block title %} bkweb首頁 {% endblock %}
+
+
+{% block body %}
+<script src="{% static 'js/image.js'%}"></script>
+<!-- 新增相片表單 -->
+<div class="row container">
+    <div class="carousel">
+        {% for img in imgs %}
+        <a class="carousel-item" href="#one!"><img src="{% static '' %}{{'images/'}}/{{img.path}}"></a>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}
