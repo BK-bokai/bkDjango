@@ -157,5 +157,9 @@ THUMBNAIL_ALIASES = {
   },
 }
 
+# 允許 找的到 is_active = false 的用戶
+AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.AllowAllUsersModelBackend']
+
+
 LOGIN_REDIRECT_URL = reverse('image:back_image')
 LOGOUT_REDIRECT_URL = reverse('image:image')

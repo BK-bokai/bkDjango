@@ -1,4 +1,4 @@
-{% extends '../layout/master.html' %}
+{% extends '../front_layout/master.html' %}
 {% load static %}
 {% block title %} myapp首頁 {% endblock %}
 
@@ -32,12 +32,17 @@
         </ul>
         {% endif %}
 
+        <div class="green-text">
+            {{request.GET.msg}}
+        </div>
+        
+
         <div class="row">
             <div class="col s6">
                 <button class="btn waves-effect waves-light test" type="submit">登入
                     <i class="material-icons right">send</i>
                 </button>
-                <button class="btn waves-effect waves-light test" type="button">註冊
+                <button url="{% url 'Users:register' %}" class="btn waves-effect waves-light register" type="button">註冊
                     <i class="material-icons right">send</i>
                 </button>
             </div>
@@ -53,6 +58,14 @@
             </div>
         </div>
     </form>
+<script>
+$(document).ready(function(){
+    $("button.register").on('click',function(){
+        url = $(this).attr('url')
+        window.location.href = url;
+    })
+})
+</script>
 
 </div>
 {% endblock %}

@@ -1,0 +1,27 @@
+<nav class="nav-extended menu">
+    <div class="nav-wrapper">
+        <a href="#" class="brand-logo valign-wrapper">
+            <div>
+                <i class="large material-icons">account_circle</i>
+                BK-home
+            </div>
+        </a>
+        <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
+            <li><a href="{% url 'Home:index' %}">前台首頁</a></li>
+            <li><a href="">編輯首頁</a></li>
+            <li><a href="{% url 'image:back_image' %}">編輯照片</a></li>
+            <li><a href="">聊天區</a></li>
+            <li><a href="">會員管理</a></li>
+            <li><a href="{% url 'Users:logout' %}">登出</a></li>
+        </ul>
+    </div>
+    <ul class="sidenav" id="mobile-demo">
+        <li><a href="{% url 'Home:index' %}">前台首頁</a></li>
+        <li><a href="">編輯首頁</a></li>
+        <li><a href="{% url 'image:back_image' %}">編輯照片</a></li>
+        <li><a href="">聊天區</a></li>
+        <li><a href="">會員管理</a></li>
+        <li><a href="{% url 'Users:logout' %}">登出</a></li>
+    </ul>
+</nav>

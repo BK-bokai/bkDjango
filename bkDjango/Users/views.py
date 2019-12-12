@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.template import loader
 from django.urls import reverse
@@ -15,57 +15,13 @@ from .forms import LoginForm
 from .models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
+import redis
+import hashlib
+import random
+from .Lib.mail import sendmail
 
-
+r = redis.Redis(host='localhost', port=6379, decode_responses=True)
 # Create your views here.
-
-
-# class Login(authViews.LoginView):
-#     def __init__(self,request,*args, **kwargs):
-#         self.request =request
-#         self.form_class = LoginForm
-# form_class = LoginForm
-# pass
-
-# template_name = 'Users/login.html'
-# # success_url = 'Home'
-# # 加入以下兩行
-# model = User
-
-# def get(self, request, *args, **kwargs):
-#     self.request = request
-#     if self.request.user.is_authenticated:
-#         return HttpResponseRedirect(reverse('myapp:StoreList'))
-#     return super().get(self, self.request, *args, **kwargs)
-
-# def post(self, request, *args, **kwargs):
-#     username = request.POST.get('username', '')
-#     password = request.POST.get('password', '')
-#     user = auth.authenticate(username=username, password=password)
-#     if user is not None and user.is_active:
-#         auth.login(request, user)
-#         return HttpResponseRedirect(reverse('myapp:StoreList'))
-#     else:
-#         return self.render_to_response(
-#             self.get_context_data(errors="帳號密碼有誤"))
-
-
-# class Home(ListView):
-#     model = User
-#     template_name = 'Users/home.html'
-#     context_object_name = 'Users'
-
-# class Logout(authViews.LogoutView):
-
-
-# def Logout(request):
-#     auth.logout(request)
-#     return HttpResponseRedirect(reverse('Users:Login'))
-
-def toLogin(request):
-    return HttpResponseRedirect(reverse('myapp:StoreList'))
-
-
 class register(CreateView):
 
     model = get_user_model()
@@ -77,10 +33,40 @@ class register(CreateView):
         self.object = None
         form = UserCreationForm(self.request.POST)
         if form.is_valid():
-            form.is_active=0
+
+            mailto = request.POST.get('email', None)
+            username = request.POST['username']
+
+            # r = redis.Redis(host='localhost', port=6379, decode_responses=True)
+            r.set(username, hashlib.sha256(
+                str(random.getrandbits(256)).encode('utf-8')).hexdigest(), 300)
+            # 將一組亂碼儲存在redis中，並設定5分鐘的期限
+
+            url = request.build_absolute_uri(reverse('Users:confirm', kwargs={
+                'username': username,
+                'token': r.get(username)
+            }
+            ))
+            sendmail(mailto=mailto, url=url)
+
             user = form.save()
-            return HttpResponseRedirect(reverse('Users:login'))
+            return HttpResponseRedirect(reverse('Users:login')+"?msg=已註冊完畢，請收取確認信")
         else:
             return self.render_to_response(
-            self.get_context_data(form=form))
+                self.get_context_data(form=form))
+
+
+def confirm(request, username, token):
+    user = get_object_or_404(User, username=username)
+    
+    if not(token == r.get(username)) or not(r.get(username)):
+        raise Http404
+    elif token == r.get(username) and r.get(username):
+        user = User.objects.filter(username=username)
+        user.update(is_active=1)
+        r.delete(username)
+        return HttpResponseRedirect(reverse('Users:login')+"?msg=感謝您的註冊，您已可進行登入動作")
+
+    
+
 

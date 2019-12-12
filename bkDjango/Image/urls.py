@@ -14,17 +14,17 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include, re_path
+from django.urls import path, include, re_path, reverse
 from .views import image
+from django .contrib.auth.decorators import login_required
+from django.conf import settings
+
 
 app_name = 'image'
 urlpatterns = [
     path('', image.front_image.as_view(), name='image'),
-    path('backend', image.bak_image.as_view(), name='back_image'),
-    path('DELETE/<int:pk>',image.delete.as_view(), name='img_del'),
-    path('PATCH/<int:pk>',image.patch.as_view(), name='img_patch'),
-
-    # path('<int:a>/plus/<int:b>', views.add, name='add'),
-    # path('', image.bak_image, name='image'),
-
+    
+    path('backend', login_required(function=image.bak_image.as_view(), login_url='/User/login/'), name='back_image'),
+    path('DELETE/<int:pk>',login_required(image.delete.as_view()), name='img_del'),
+    path('PATCH/<int:pk>',login_required(image.patch.as_view()), name='img_patch'),
 ]
