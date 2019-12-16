@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'Users',
     'Home',
     'Image',
+    # 'password_reset',
 ]
 
 AUTH_USER_MODEL = 'Users.User' # new
@@ -163,3 +164,27 @@ AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.AllowAllUsersModelBacke
 
 LOGIN_REDIRECT_URL = reverse('image:back_image')
 LOGOUT_REDIRECT_URL = reverse('image:image')
+
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
+
+EMAIL_FILE_PATH = os.path.join(BASE_DIR, "sent_emails")
+
+# SMTP服务器，改为你的邮箱的smtp!
+EMAIL_HOST = 'smtp.gmail.com'
+# 改为你自己的邮箱名！
+EMAIL_HOST_USER = 'bokai830124@gmail.com'
+# 你的邮箱密码
+EMAIL_HOST_PASSWORD = 'pzyqeegjopvfjqzp'
+# 发送邮件的端口
+EMAIL_PORT = 465
+# 是否使用 SSL
+EMAIL_USE_SSL = True
+EMAIL_USE_TLS = False
+# 默认的发件人
+DEFAULT_FROM_EMAIL = 'bokai830124@gmail.com'
+
+
+

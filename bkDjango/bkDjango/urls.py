@@ -25,6 +25,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('Home/', include('Home.urls',namespace='Home')),
     path('Images/', include('Image.urls',namespace='image')),
-    path('User/', include('Users.urls',namespace='Users'))
+    path('User/', include('Users.urls',namespace='Users')),
+    path('password-reset/', include('password_reset.urls')),
     # path('myapp/', include('myapp.urls', namespace='Myapp')),
 ]

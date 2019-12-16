@@ -30,8 +30,6 @@ urlpatterns = [
     path('logout/', authViews.LogoutView.as_view(), name='logout'),
 
     
-
-
     path('password_change/', authViews.PasswordChangeView.as_view(),
          name='password_change'),
     path('password_change/done/', authViews.PasswordChangeDoneView.as_view(),
@@ -44,6 +42,4 @@ urlpatterns = [
          name='password_reset_confirm'),
     path('reset/done/', authViews.PasswordResetCompleteView.as_view(),
          name='password_reset_complete'),
-
-
 ]

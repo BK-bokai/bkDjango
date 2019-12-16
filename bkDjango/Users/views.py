@@ -19,6 +19,13 @@ import redis
 import hashlib
 import random
 from .Lib.mail import sendmail
+from django.core.mail import send_mail
+
+from django.conf import settings
+from django.core.mail import EmailMultiAlternatives
+
+from_email = settings.DEFAULT_FROM_EMAIL
+
 
 r = redis.Redis(host='localhost', port=6379, decode_responses=True)
 # Create your views here.
@@ -48,6 +55,8 @@ class register(CreateView):
             }
             ))
             sendmail(mailto=mailto, url=url)
+
+            send_mail('Subject here', 'Here is the message.', from_email, [mailto], fail_silently=False)
 
             user = form.save()
             return HttpResponseRedirect(reverse('Users:login')+"?msg=已註冊完畢，請收取確認信")
