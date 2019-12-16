@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, re_path
+from django .contrib.auth.decorators import login_required
 from . import views
 from django.contrib.auth import views as authViews
 
@@ -23,6 +24,12 @@ urlpatterns = [
     # path('Login', views.Login.as_view(), name='login'),
     # path('Home', views.Home.as_view(), name='Home'),
     # path('logout', views.Logout, name='Logout'),
+    path('members/',login_required(views.members.as_view()),name='members'),
+    path('addMember/',login_required(views.addMember.as_view()),name='addMember'),
+    path('DELETE/<int:pk>',login_required(views.delMember.as_view()), name='del_member'),
+    path('PATCH/<int:pk>',login_required(views.patchMember.as_view()), name='patch_member'),
+
+
     path('register/',views.register.as_view(),name='register'),
     path('confirm/<str:username>/<str:token>', views.confirm, name='confirm'),
 

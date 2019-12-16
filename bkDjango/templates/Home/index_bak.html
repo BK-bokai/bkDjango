@@ -1,0 +1,134 @@
+{% extends '../back_layout/master.html' %}
+{% load static %}
+{% block title %} bkweb首頁 {% endblock %}
+
+
+{% block body %}
+<script src="{% static 'js/index.js' %}"></script>
+<div class="row container">
+    <div class="col s12">
+        <button url="" id="index_img" class="btn waves-effect waves-light">
+            <i class="fas fa-images"></i>
+            選擇首頁相片
+        </button>
+    </div>
+    <div class="col s12 m6">
+        <h3>左半邊</h3>
+        <div class="row Content">
+            <div class="col s12">
+                <div class="input-field col s12">
+                    <textarea name="index_content_one" id="photoContent1" url="{% url 'Home:check_index' %}"
+                        class="materialize-textarea">{{ index.content_one }}</textarea>
+                    <label for="photoContent1">第一段</label>
+                </div>
+            </div>
+
+            <div class="col s12">
+                <div class="input-field col s12">
+                    <textarea name="index_content_two" id="photoContent2" url="{% url 'Home:check_index' %}"
+                        class="materialize-textarea">{{ index.content_two }}</textarea>
+                    <label for="photoContent2">第二段</label>
+                </div>
+
+                <button url="" id="index_submit" class="btn waves-effect waves-light disabled" name="action">存檔
+                    <i class="fas fa-save"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col s12 m6">
+        <h3>右半邊</h3>
+        <div class="row Content">
+            <div class="col s12">
+                <div class="input-field col s12">
+                    <textarea name="student_content" id="studentContent" url="{% url 'Home:check_index' %}"
+                        class="materialize-textarea">{{ student.content }}</textarea>
+                    <label for="studentContent">第一段</label>
+                </div>
+            </div>
+
+            <div class="col s12">
+                <div class="input-field col s12">
+                    <textarea name="worker_content" id="workContent" url="{% url 'Home:check_index' %}"
+                        class="materialize-textarea">{{ worker.content }}</textarea>
+                    <label for="workContent">第二段</label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <div class="col s12 m6">
+        <div class="row">
+            <ul class="collection with-header">
+                <li class="collection-header">
+                    <h4>學生時期<br>技能列表
+                    </h4>
+                </li>
+
+                {% for ss in s_skill %}
+                <li class="collection-item">
+                    <div>
+                        {{ ss.skill }}
+                        <a href="javascript:void(0);" class="studentskill_del secondary-content red-text"
+                            url="" data-id="{{ ss.id }}">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                    </div>
+                </li>
+                {% endfor %}
+
+
+                <li class="collection-item">
+                    <form id='add_student_skill' action="" method="post" enctype="multipart/form-data">
+
+                        <div>
+                            <input name='student_skill' type="text" placeholder="請輸入要新增的技能">
+                            <button class="btn waves-effect waves-light" type="submit">新增技能
+                                <i class="fas fa-save"></i>
+                            </button>
+                        </div>
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div col class="col s12 m6">
+        <div class="row">
+            <ul class="collection with-header">
+                <li class="collection-header">
+                    <h4>工作經驗<br>技能列表
+                    </h4>
+                </li>
+
+                {% for ws in w_skill %}
+                <li class="collection-item">
+                    <div>{{ ws.skill }}<a href="javascript:void(0);"
+                            class="workskill_del secondary-content red-text"
+                            url=""
+                            data-id=""><i class="fas fa-trash"></i></a></div>
+                </li>
+                {% endfor %}
+
+                <li class="collection-item">
+                    <form id='add_work_skill' action="" method="post"
+                        enctype="multipart/form-data">
+                        <div>
+                            <input name='work_skill' type="text" placeholder="請輸入要新增的技能">
+                            <button class="btn waves-effect waves-light" type="submit">新增技能
+                                <i class="fas fa-save"></i>
+                            </button>
+                        </div>
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

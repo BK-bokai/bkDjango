@@ -15,8 +15,16 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include, re_path
+from django .contrib.auth.decorators import login_required
 from .views import index
 app_name = 'Home'
+
 urlpatterns = [
-    path('', index.index.as_view(), name='index'),   
+    path('', index.index.as_view(), name='index'),
+    path('backend', login_required(index.bak_Home.as_view(),login_url='/User/login/'), name='back_index'),
+    path('checkIndex',login_required(index.checkHome), name='check_index')    
+    # path('backend', login_required(index.patchHome,login_url='/User/login/'), name='back_index'),    
+
+    # path('backend', login_required(function=image.bak_image.as_view(), login_url='/User/login/'), name='back_image'),
+
 ]

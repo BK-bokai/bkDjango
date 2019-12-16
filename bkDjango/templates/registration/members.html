@@ -1,0 +1,58 @@
+{% extends '../back_layout/master.html' %}
+{% load static %}
+{% block title %} myapp首頁 {% endblock %}
+
+
+{% block body %}
+<script src="{% static 'js/members.js' %}"></script>
+<div class="row container ">
+    <div class="col s12 memberList">
+        <table class="highlight centered">
+            <thead>
+                <tr>
+                    <th>id</th>
+                    <th>帳號 </th>
+                    <th>信箱</th>
+                    <th>狀態</th>
+                    <th>編輯</th>
+                    <th>刪除</th>
+                </tr>
+            </thead>
+
+            {% for member in members %}
+            <tbody user="{{ member.id }}">
+                <tr>
+                    <td>{{ member.id }}</td>
+                    <td>{{ member.username}}</td>
+                    <td>{{ member.email }}</td>
+                    <td>{{ member.is_active }}</td>
+                    <td>
+                        <button user-id=" {{ member.id }} " url="{% url 'Users:patch_member' member.id %}"
+                            class=" del-btn btn waves-effect waves-light green edit_mem ">編輯</button>
+                    </td>
+
+                    <td>
+                        <button style="margin-right: 9px" user-id=" {{ member.id }} "
+                            url="{% url 'Users:del_member' member.id %}"
+                            class=" del-btn btn waves-effect waves-light red del_mem ">刪除</button>
+                    </td>
+                </tr>
+            </tbody>
+            {% endfor %}
+        </table>
+        <a href="{% url 'Users:addMember' %}"
+            class="btn tooltipped btn-floating btn-large waves-effect waves-light black pulse" data-position="bottom"
+            data-tooltip="新增會員">
+            <i class="material-icons">add</i>
+        </a>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $('button.edit_mem').on('click', function () {
+            url = $(this).attr('url');
+            window.location.href = url;
+        })
+    })
+</script>
+{% endblock %}
