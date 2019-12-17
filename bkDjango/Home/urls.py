@@ -21,10 +21,15 @@ app_name = 'Home'
 
 urlpatterns = [
     path('', index.index.as_view(), name='index'),
-    path('backend', login_required(index.bak_Home.as_view(),login_url='/User/login/'), name='back_index'),
-    path('checkIndex',login_required(index.checkHome), name='check_index')    
-    # path('backend', login_required(index.patchHome,login_url='/User/login/'), name='back_index'),    
 
-    # path('backend', login_required(function=image.bak_image.as_view(), login_url='/User/login/'), name='back_image'),
+    path('backend', login_required(index.bak_Home.as_view(),login_url='/User/login/'), name='back_index'),
+    path('checkIndex',login_required(index.checkHome), name='check_index'),
+    path('Patch', login_required(index.patchHome), name='patch_index'),    
+
+    path('Post/s_skill', login_required(index.s_skillAdd), name='add_sskill'),
+    path('Delete/s_skill/<int:pk>', login_required(index.s_skillDel), name='del_sskill'), 
+
+    path('Post/w_skill', login_required(index.w_skillAdd), name='add_wskill'),
+    path('Delete/w_skill/<int:pk>', login_required(index.w_skillDel), name='del_wskill'), 
 
 ]

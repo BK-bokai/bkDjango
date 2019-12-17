@@ -30,7 +30,7 @@
                     <label for="photoContent2">第二段</label>
                 </div>
 
-                <button url="" id="index_submit" class="btn waves-effect waves-light disabled" name="action">存檔
+                <button url="{% url 'Home:patch_index' %}" id="index_submit" class="btn waves-effect waves-light disabled" name="action">存檔
                     <i class="fas fa-save"></i>
                 </button>
             </div>
@@ -75,7 +75,7 @@
                     <div>
                         {{ ss.skill }}
                         <a href="javascript:void(0);" class="studentskill_del secondary-content red-text"
-                            url="" data-id="{{ ss.id }}">
+                            url="{% url 'Home:del_sskill' ss.id %}" data-id="{{ ss.id }}">
                             <i class="fas fa-trash"></i>
                         </a>
                     </div>
@@ -84,11 +84,10 @@
 
 
                 <li class="collection-item">
-                    <form id='add_student_skill' action="" method="post" enctype="multipart/form-data">
-
+                    <form id='add_student_skill' action="" method="post" enctype="multipart/form-data" url="{% url 'Home:add_sskill' %}">
                         <div>
-                            <input name='student_skill' type="text" placeholder="請輸入要新增的技能">
-                            <button class="btn waves-effect waves-light" type="submit">新增技能
+                            <input name='skill' type="text" placeholder="請輸入要新增的技能">
+                            <button class="btn waves-effect waves-light add_skill" url="{% url 'Home:add_sskill' %}" type="submit">新增技能
                                 <i class="fas fa-save"></i>
                             </button>
                         </div>
@@ -109,17 +108,18 @@
                 <li class="collection-item">
                     <div>{{ ws.skill }}<a href="javascript:void(0);"
                             class="workskill_del secondary-content red-text"
-                            url=""
-                            data-id=""><i class="fas fa-trash"></i></a></div>
+                            url="{% url 'Home:del_wskill' ws.id %}"
+                            data-id="{{ws.id}}"><i class="fas fa-trash"></i></a></div>
                 </li>
                 {% endfor %}
 
                 <li class="collection-item">
-                    <form id='add_work_skill' action="" method="post"
+                    <form id='add_work_skill' action='' method="post"
                         enctype="multipart/form-data">
+                        {% csrf_token %}
                         <div>
-                            <input name='work_skill' type="text" placeholder="請輸入要新增的技能">
-                            <button class="btn waves-effect waves-light" type="submit">新增技能
+                            <input name='skill' type="text" placeholder="請輸入要新增的技能" required>
+                            <button class="btn waves-effect waves-light add_skill" url="{% url 'Home:add_wskill' %}" type="submit">新增技能
                                 <i class="fas fa-save"></i>
                             </button>
                         </div>

@@ -10,6 +10,8 @@ from django.db.models import F
 from django.shortcuts import render_to_response
 from django .contrib.auth.decorators import login_required
 from ..models import Index, Student, StudentSkill, Worker, WorkSkill
+from ..forms import s_skillForm, w_skillForm
+
 # Create your views here.
 
 
@@ -99,30 +101,56 @@ def checkHome(request):
         student = Student.objects.get(id=1)
         worker = Worker.objects.get(id=1)
 
-        index_content_one = request.POST.get('index_content_one',None)
-        index_content_two = request.POST.get('index_content_two',None)
-        student_content   = request.POST.get('student_content',None)
-        worker_content = request.POST.get('worker_content',None)
+        index_content_one = request.POST.get('index_content_one', None)
+        index_content_two = request.POST.get('index_content_two', None)
+        student_content = request.POST.get('student_content', None)
+        worker_content = request.POST.get('worker_content', None)
 
-        if  not(index.content_one  == index_content_one) and\
-            not(index.content_two == index_content_two) and\
-            not(student.content   == student_content) and\
-            not(worker.content    == worker_content):
-            return JsonResponse({'change':1})
+        if index.content_one != index_content_one or\
+                index.content_two != index_content_two or\
+                student.content != student_content or\
+                worker.content != worker_content:
+            return JsonResponse({'change': 1})
         else:
-            return JsonResponse({'change':0})
-    else :
+            return JsonResponse({'change': 0})
+    else:
         raise Http404
 
 
+def patchHome(request):
+    if request.is_ajax():
+        index = Index.objects.filter(id=1)
+        student = Student.objects.filter(id=1)
+        worker = Worker.objects.filter(id=1)
+
+        index_content_one = request.POST.get('index_content_one', None)
+        index_content_two = request.POST.get('index_content_two', None)
+        student_content = request.POST.get('student_content', None)
+        worker_content = request.POST.get('worker_content', None)
+
+        index.update(content_one = index_content_one, content_two=index_content_two)
+        student.update(content = student_content)
+        worker.update(content = worker_content)
+
+        return JsonResponse({'have_changed': 1})
+    else:
+        raise Http404
+
+def s_skillAdd(request):
+    # StudentSkill.objects.create()
+    skill = request.POST.get('skill',None)
+    # time  = timezone.localtime()
+    # new_skill = StudentSkill.objects.create(skill= skill, create_at = time)
+    # return JsonResponse({'new_skill': new_skill.id})
+    return JsonResponse({'new_skill': 1})
 
 
-    context = {
-        'index': Index.objects.get(id=1),
-        'student': Student.objects.get(id=1),
-        's_skill': StudentSkill.objects.all(),
-        'worker': Worker.objects.get(id=1),
-        'w_skill': WorkSkill.objects.all()
-    }
+def s_skillDel(request,pk):
+    return JsonResponse({'have_changed': 1})
 
-    return render(request, 'Home/index_bak.html', context)
+def w_skillAdd(request):
+    
+    return JsonResponse({'have_changed': request})
+
+def w_skillDel(request,pk):
+    return JsonResponse({'have_changed': 1})
