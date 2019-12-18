@@ -27,4 +27,9 @@ urlpatterns = [
     path('backend', login_required(function=image.bak_image.as_view(), login_url='/User/login/'), name='back_image'),
     path('DELETE/<int:pk>',login_required(image.delete.as_view()), name='img_del'),
     path('PATCH/<int:pk>',login_required(image.patch.as_view()), name='img_patch'),
+
+    path('Index_img',login_required(function=image.img_home.as_view(), login_url='/User/login/'), name='img_home'),
+    path('Check_index_img/<int:pk>',login_required(function=image.img_home_check, login_url='/User/login/'), name='check_img_home'),
+    path('Index/Patch',login_required(function=image.img_home_patch, login_url='/User/login/'), name='patch_img_home'),
+    
 ]

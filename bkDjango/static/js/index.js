@@ -70,10 +70,11 @@ $(document).ready(function () {
 
   })
 
-  $('a.studentskill_del').on('click', function () {
+
+
+  $(document).on('click','a.skill_del', function () {
     let url = $(this).attr('url');
     let target = $(this).parent().parent();
-    // alert(url)
     swal({
       title: "Are you sure?",
       text: "你確定要刪除嗎?",
@@ -93,7 +94,13 @@ $(document).ready(function () {
             dataType: 'json',
             success: function (data) {
               swal("確認刪除", "已刪除此技能", "success")
-              target.slideUp()
+
+              let remFun = function () {
+                target.remove();
+              }
+
+              target.slideUp(300,remFun);
+
               console.log(data);
               console.log("ajax success");
             }
@@ -104,6 +111,7 @@ $(document).ready(function () {
         }
       });
   })
+
 
   $('a.workskill_del').on('click', function () {
     let url = $(this).attr('url');
@@ -141,18 +149,20 @@ $(document).ready(function () {
       });
   })
 
-  $("form#add_student_skill").on('submit', function (e) {
+  $("form.add_skill").on('submit', function (e) {
     e.preventDefault();
     let formData = $(this).serializeArray();
     // let formData = $(this).serialize();
+    console.log(formData)
     let url = $(this).attr('url')
-    let li = $(this).parent().prev().clone()
+    let li = $(this).parent().prev().clone() //取得在兄弟元素
     let a = li.children().children('a').clone()
 
 
-    li.text(formData[0].value)
+    li.children('div').text(formData[1].value)
+
     $(this).parent().prev().after(li) //取得在兄弟元素下加入li
-    li.append(a)
+    li.children('div').append(a)
 
     a_url = a.attr('url')
     a_url = a_url.split("/")
@@ -164,21 +174,15 @@ $(document).ready(function () {
       dataType: 'json',
       success: function (data) {
         console.log(data);
-
+        $("input[type=reset]").trigger("click");//触发reset按钮 } 
         a_url[a_url.length - 1] = data.new_skill
         a_url = a_url.join("/")
-        a.attr('url',a_url)
-        a.attr('data-id',data.new_skill)
+        a.attr('url', a_url)
+        a.attr('data-id', data.new_skill)
+
         console.log("ajax success");
       }
     })
-  })
-
-  $("button.add_skill").on('click', function (e) {
-    e.stopPropagation()
-    let url = $(this).attr('url')
-    // let skill = 
-    // alert(url)
   })
 
 

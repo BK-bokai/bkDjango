@@ -113,4 +113,32 @@ class patch(UpdateView):
         response_data = {"action": "patch", 'Image':pk, 'request.is_ajax()':request.is_ajax(), 'publish':publish}
         return JsonResponse(response_data)
 
+class img_home(ListView):
+    template_name = 'Home/index_img_bak.html'
+    model = Images
+
+    # 與get_queryset配對的變數名稱
+    context_object_name = 'imgs'
+
+    # 定義回傳的資料
+    def get_queryset(self):
+        return Images.objects.all()
+
+def img_home_patch(request):
+    old_index_img = Images.objects.filter(index=True)
+    old_index_img.update(index=False)
+    # return HttpResponse(request.POST.get('index_img',None))
+    new_index_img = Images.objects.filter(id=request.POST.get('index_img',None))
+    new_index_img.update(index=True)
+    return HttpResponseRedirect(reverse('image:img_home'))
+
+def img_home_check(request,pk):
+    index_img = Images.objects.get(pk=pk)
+    if not(index_img.index):
+        response_data = {"change": 1}
+        return JsonResponse(response_data)
+    else:
+        response_data = {"change": 0}
+        return JsonResponse(response_data)
+
 

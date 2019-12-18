@@ -7,7 +7,7 @@
 <script src="{% static 'js/index.js' %}"></script>
 <div class="row container">
     <div class="col s12">
-        <button url="" id="index_img" class="btn waves-effect waves-light">
+        <button url="{% url 'image:img_home' %}" id="index_img" class="btn waves-effect waves-light">
             <i class="fas fa-images"></i>
             選擇首頁相片
         </button>
@@ -30,7 +30,8 @@
                     <label for="photoContent2">第二段</label>
                 </div>
 
-                <button url="{% url 'Home:patch_index' %}" id="index_submit" class="btn waves-effect waves-light disabled" name="action">存檔
+                <button url="{% url 'Home:patch_index' %}" id="index_submit"
+                    class="btn waves-effect waves-light disabled" name="action">存檔
                     <i class="fas fa-save"></i>
                 </button>
             </div>
@@ -74,7 +75,7 @@
                 <li class="collection-item">
                     <div>
                         {{ ss.skill }}
-                        <a href="javascript:void(0);" class="studentskill_del secondary-content red-text"
+                        <a href="javascript:void(0);" class="skill_del secondary-content red-text"
                             url="{% url 'Home:del_sskill' ss.id %}" data-id="{{ ss.id }}">
                             <i class="fas fa-trash"></i>
                         </a>
@@ -84,13 +85,18 @@
 
 
                 <li class="collection-item">
-                    <form id='add_student_skill' action="" method="post" enctype="multipart/form-data" url="{% url 'Home:add_sskill' %}">
+                    <!-- <form id='add_student_skill' action="" method="post" enctype="multipart/form-data" url="{% url 'Home:add_sskill' %}"> -->
+                    <form class='add_skill' action="" method="post" enctype="multipart/form-data"
+                        url="{% url 'Home:add_sskill' %}">
+                        {% csrf_token %}
                         <div>
                             <input name='skill' type="text" placeholder="請輸入要新增的技能">
-                            <button class="btn waves-effect waves-light add_skill" url="{% url 'Home:add_sskill' %}" type="submit">新增技能
+                            <button class="btn waves-effect waves-light add_skill" url="{% url 'Home:add_sskill' %}"
+                                type="submit">新增技能
                                 <i class="fas fa-save"></i>
                             </button>
                         </div>
+                        <input type="reset" style="display:none;" /> 
                     </form>
                 </li>
             </ul>
@@ -106,23 +112,25 @@
 
                 {% for ws in w_skill %}
                 <li class="collection-item">
-                    <div>{{ ws.skill }}<a href="javascript:void(0);"
-                            class="workskill_del secondary-content red-text"
-                            url="{% url 'Home:del_wskill' ws.id %}"
-                            data-id="{{ws.id}}"><i class="fas fa-trash"></i></a></div>
+                    <div>{{ ws.skill }}<a href="javascript:void(0);" class="skill_del secondary-content red-text"
+                            url="{% url 'Home:del_wskill' ws.id %}" data-id="{{ws.id}}"><i class="fas fa-trash"></i></a>
+                    </div>
                 </li>
                 {% endfor %}
 
                 <li class="collection-item">
-                    <form id='add_work_skill' action='' method="post"
-                        enctype="multipart/form-data">
+                    <!-- <form id='add_work_skill' action='' method="post" enctype="multipart/form-data"> -->
+                    <form class='add_skill' action='' method="post" enctype="multipart/form-data"
+                        url="{% url 'Home:add_wskill' %}">
                         {% csrf_token %}
                         <div>
                             <input name='skill' type="text" placeholder="請輸入要新增的技能" required>
-                            <button class="btn waves-effect waves-light add_skill" url="{% url 'Home:add_wskill' %}" type="submit">新增技能
+                            <button class="btn waves-effect waves-light add_skill" url="{% url 'Home:add_wskill' %}"
+                                type="submit">新增技能
                                 <i class="fas fa-save"></i>
                             </button>
                         </div>
+                        <input type="reset" style="display:none;" /> 
                     </form>
                 </li>
             </ul>

@@ -11,6 +11,7 @@ from django.shortcuts import render_to_response
 from django .contrib.auth.decorators import login_required
 from ..models import Index, Student, StudentSkill, Worker, WorkSkill
 from ..forms import s_skillForm, w_skillForm
+from ...Image.models import Images
 
 # Create your views here.
 
@@ -31,6 +32,7 @@ class index(ListView):
         context['s_skill'] = StudentSkill.objects.all()
         context['worker'] = Worker.objects.get(id=1)
         context['w_skill'] = WorkSkill.objects.all()
+        context['index_img'] = Images.objects.get(index=True)
         return context
 
 
@@ -139,18 +141,23 @@ def patchHome(request):
 def s_skillAdd(request):
     # StudentSkill.objects.create()
     skill = request.POST.get('skill',None)
-    # time  = timezone.localtime()
-    # new_skill = StudentSkill.objects.create(skill= skill, create_at = time)
-    # return JsonResponse({'new_skill': new_skill.id})
-    return JsonResponse({'new_skill': 1})
+    time  = timezone.localtime()
+    new_skill = StudentSkill.objects.create(skill= skill, create_at = time)
+    return JsonResponse({'new_skill': new_skill.id})
 
 
 def s_skillDel(request,pk):
-    return JsonResponse({'have_changed': 1})
+    skill = StudentSkill.objects.get(pk=pk)
+    skill.delete()
+    return JsonResponse({'have_deleted': pk})
 
 def w_skillAdd(request):
-    
-    return JsonResponse({'have_changed': request})
+    skill = request.POST.get('skill',None)
+    time  = timezone.localtime()
+    new_skill = WorkSkill.objects.create(skill= skill, create_at = time)
+    return JsonResponse({'new_skill': new_skill.id})
 
 def w_skillDel(request,pk):
-    return JsonResponse({'have_changed': 1})
+    skill = WorkSkill.objects.get(pk=pk)
+    skill.delete()
+    return JsonResponse({'have_deleted': pk})
