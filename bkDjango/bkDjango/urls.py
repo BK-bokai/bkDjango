@@ -26,6 +26,7 @@ urlpatterns = [
     path('Home/', include('Home.urls',namespace='Home')),
     path('Images/', include('Image.urls',namespace='image')),
     path('User/', include('Users.urls',namespace='Users')),
-    path('password-reset/', include('password_reset.urls')),
+    # path('password-reset/', include('password_reset.urls')),
+    path('Message/', include('Message.urls')),
     # path('myapp/', include('myapp.urls', namespace='Myapp')),
 ]

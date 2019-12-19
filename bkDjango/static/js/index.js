@@ -75,6 +75,7 @@ $(document).ready(function () {
   $(document).on('click','a.skill_del', function () {
     let url = $(this).attr('url');
     let target = $(this).parent().parent();
+
     swal({
       title: "Are you sure?",
       text: "你確定要刪除嗎?",

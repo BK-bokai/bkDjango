@@ -108,7 +108,7 @@ class patch(UpdateView):
         
         publish = request.POST.get('publish')
         img = Images.objects.filter(pk=pk)
-        img.update(publish = True if int(publish) == 1 else False)
+        img.update(publish = True if int(publish) == 1 else False, update_at=timezone.localtime())
 
         response_data = {"action": "patch", 'Image':pk, 'request.is_ajax()':request.is_ajax(), 'publish':publish}
         return JsonResponse(response_data)
@@ -126,10 +126,10 @@ class img_home(ListView):
 
 def img_home_patch(request):
     old_index_img = Images.objects.filter(index=True)
-    old_index_img.update(index=False)
+    old_index_img.update(index=False,update_at=timezone.localtime())
     # return HttpResponse(request.POST.get('index_img',None))
     new_index_img = Images.objects.filter(id=request.POST.get('index_img',None))
-    new_index_img.update(index=True)
+    new_index_img.update(index=True,update_at=timezone.localtime())
     return HttpResponseRedirect(reverse('image:img_home'))
 
 def img_home_check(request,pk):

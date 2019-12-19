@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'Users',
     'Home',
     'Image',
+    'Message'
     # 'password_reset',
 ]
 
