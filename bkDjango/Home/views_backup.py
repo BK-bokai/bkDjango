@@ -9,10 +9,11 @@ from django.utils import timezone
 from django.db.models import F
 from django.shortcuts import render_to_response
 from django .contrib.auth.decorators import login_required
-from ..models import Index, Student, StudentSkill, Worker, WorkSkill
-from ..forms import s_skillForm, w_skillForm
+from .models import Index, Student, StudentSkill, Worker, WorkSkill
+from .forms import s_skillForm, w_skillForm
+# from ...Image.models import Images
 from Image.models import Images
-
+# from bkDjango.Image.models import Images
 
 # Create your views here.
 
